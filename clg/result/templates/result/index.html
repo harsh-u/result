@@ -72,41 +72,10 @@
         </tr>
         <tr>
             <th>Course</th>
-            <td>{{stud.course}}</td>
+            <td>{{stud.degree}}</td>
             <th>Batch</th>
             <td>{{stud.batch}}</td>
         </tr>
-    </table>
-    <br>
-    <br>
-    <br>
-    <br>
-    <table style="width:100%">
-        <tr>
-            <th>Semester</th>
-            <th>I</th>
-            <th>II</th>
-            <th>III</th>
-            <th>IV</th>
-            <th>V</th>
-            <th>VI</th>
-            <th>VII</th>
-            <th>VIII</th>
-            <th>Curr. CGPA </th>
-        </tr>
-        <tr>
-            <th>SGPA</th>
-            <th>{{semester.a}}</th>
-            <th>{{semester.b}}</th>
-            <th>{{semester.c}}</th>
-            <th>{{semester.d}}</th>
-            <th>{{semester.e}}</th>
-            <th>{{semester.f}}</th>
-            <th>{{semester.g}}</th>
-            <th>{{semester.h}}</th>
-            <th>{{semester.cgpa}}</th>
-        </tr>
-
     </table>
 <br>
 <br>
@@ -117,10 +86,10 @@
         <th>Semester</th>
         <th>SGPA</th>
     </tr>
-    {% for key, values in sgpa.items %}
+    {% for item in sgpa %}
     <tr>
-        <th>{{key}}</th>
-        <th>{{values}}</th>
+        <th>{{item.semester}}</th>
+        <th>{{item.sgpa}}</th>
     </tr>
     {% endfor %}
 </table>

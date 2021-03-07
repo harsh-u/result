@@ -1,17 +1,24 @@
 from django.shortcuts import render
 from .models import Student
-from .models import Sem, StudentMarks
+from .models import StudentMarks
 from django.http import HttpResponse
 # Create your views here.
 
 def index(request):
     student = Student.objects.all()[0]
-    sem = Sem.objects.all()[0]
     sgpa_map = calcualte_sgpa(student)
     cgpa = calcualte_cgpa(sgpa_map)
-    print(cgpa)
-    params = {"stud": student, "semester":sem, "sgpa":  sgpa_map, "cgpa": cgpa}
+    params = {"stud": student, "sgpa":  sgpa_map, "cgpa": cgpa}
     return render(request, "result/index.html", params)
+
+def student_results(request, student_id):
+    student = Student.objects.filter(id=student_id).first()
+    sgpa_list = calcualte_sgpa(student)
+    cgpa = calcualte_cgpa(sgpa_list)
+    print(sgpa_list)
+    params = {"stud": student, "sgpa":  sgpa_list, "cgpa": cgpa}
+    return render(request, "result/index.html", params)
+
 
 def calcualte_sgpa(student):
     student_marks = StudentMarks.objects.filter(course__student=student).all()
@@ -27,11 +34,19 @@ def calcualte_sgpa(student):
         if v['total_marks'] > 0:
             sgpa_map[k] = 10.0 * v['got_marks']/v['total_marks']
 
-    return sgpa_map
+    sgpa_list = list()
+    for k, v in sgpa_map.items():
+        sgpa_list.append({"semester": k, "sgpa": v})
 
-def calcualte_cgpa(sgpa_map):
+    sgpa_list.sort(key = lambda x: x['semester'].year)
+
+    return sgpa_list
+
+def calcualte_cgpa(sgpa_list):
     cgpa = 0.0
-    if sgpa_map:
-        cgpa = sum(sgpa_map.values())/len(sgpa_map)
+    if sgpa_list:
+        total = sum(item['sgpa'] for item in sgpa_list)
+        cgpa = total/len(sgpa_list)
 
+    cgpa = round(cgpa, 2)
     return cgpa

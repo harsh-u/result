@@ -16,21 +16,6 @@ class Student(models.Model):
         return f"{self.registration}-{self.name}"
 
 
-class Sem(models.Model):
-    student=models.ForeignKey(Student, on_delete=models.CASCADE)
-    a = models.FloatField(default=0)
-    b = models.FloatField(default=0)
-    c = models.FloatField(default=0)
-    d = models.FloatField(default=0)
-    e = models.FloatField(default=0)
-    f = models.FloatField(default=0)
-    g = models.FloatField(default=0)
-    h = models.FloatField(default=0)
-    cgpa = models.FloatField(default=0)
-
-    def __str__(self):
-        return self.student.name
-
 class Semester(models.Model):
     number =  models.IntegerField()
     year = models.IntegerField()
