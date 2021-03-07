@@ -11,6 +11,13 @@ class Student(models.Model):
     registration = models.IntegerField()
     branch = models.CharField(max_length=50)
     batch = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
+
+
+class Sem(models.Model):
+    student=models.ForeignKey(Student, on_delete=models.CASCADE)
     a = models.FloatField(default=0)
     b = models.FloatField(default=0)
     c = models.FloatField(default=0)
@@ -22,5 +29,4 @@ class Student(models.Model):
     cgpa = models.FloatField(default=0)
 
     def __str__(self):
-        return self.name
-
+        return self.student.name
